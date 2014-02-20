@@ -3,24 +3,36 @@ var http = require('http'),
     url = require('url');
  
 var _request = http.request;
-var _proxy = { host: '', port: 0 };
+var _proxy = {
+  port: 80,
+  protocol: 'http:' 
+};
 
 http.request = https.request = function (options, callback) {
+    // Parse destination URL
     if ('string' === typeof options) {
       var parsed = url.parse(options);
 
       options = {
         host:     parsed.host,
-        port:     parsed.port,
         path:     parsed.path,
-        protocol: parsed.protocol
+        port:     parsed.port     || 80,
+        protocol: parsed.protocol || 'http:'
       };
+
+      if(options.protocol === 'https:' && !parsed.port) {
+        options.port = 443;
+      } 
     }
 
     // Apply our proxy settings
-    options.path = options.pathname = options.protocol + '//' + options.host + options.path;
-    options.host = _proxy.host;
-    options.port = _proxy.port;
+    options = {
+      path:     options.protocol + '//' + options.host + ':' + options.port + options.path,
+      host:     _proxy.hostname,
+      port:     _proxy.port,
+      protocol: _proxy.protocol,
+      hostname: _proxy.hostname
+    };
 
     // Call the original request
     return _request(options, callback);
@@ -32,7 +44,13 @@ http.get = https.get = function(options, callback) {
   return req;
 };
 
-module.exports = function (host, port) {
-    _proxy = { host: host, port: port };
+module.exports = function(proxyUrl) {
+    var parsed = url.parse(proxyUrl);
+
+    _proxy = {
+      port:     parsed.port     || _proxy.port,
+      protocol: parsed.protocol || _proxy.protocol,
+      hostname: parsed.hostname
+    };
 };
 
