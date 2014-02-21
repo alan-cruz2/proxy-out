@@ -1,11 +1,8 @@
 {
   "name": "proxy-out",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sony-magic/proxy-out"
