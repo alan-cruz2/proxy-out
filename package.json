@@ -3,6 +3,9 @@
   "version": "0.0.6",
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --ui bdd -R spec test.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sony-magic/proxy-out"
@@ -15,5 +18,9 @@
   "homepage": "https://github.com/sony-magic/proxy-out",
   "dependencies": {
     "tunnel": "0.0.3"
+  },
+  "devDependencies": {
+    "chai": "~1.9.0",
+    "mocha": "~1.17.1"
   }
 }
