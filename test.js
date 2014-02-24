@@ -1,7 +1,6 @@
 var http = require('http');
 var mocha = require('mocha');
 var expect = require('chai').expect;
-var assert = require('assert');
 
 var COLON_SLASHES = '://';
 var DEFAULT_PROTOCOL = 'http';
