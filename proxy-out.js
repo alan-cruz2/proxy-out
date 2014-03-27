@@ -2,27 +2,24 @@ var url = require('url'),
     http = require('http'),
     https = require('https'),
     tunnel = require('tunnel');
-
-var COLON_SLASHES = '://';
-var DEFAULT_PROTOCOL = 'http';
-var SECURE_PROTOCOL = 'https';
-
+ 
 var _httpsAgent, _proxy;
 
 // Our export method simply sets our proxy information
 module.exports = function(proxyUrl) {
+
   // Use http protocol if not specified
-  if(!proxyUrl.match(COLON_SLASHES)) {
-    proxyUrl = DEFAULT_PROTOCOL + COLON_SLASHES + proxyUrl;
+  if(!proxyUrl.match('://')) {
+    proxyUrl = 'http://' + proxyUrl;
   }
 
   var parsed = url.parse(proxyUrl);
   _proxy = {
     port:     parsed.port     || 80,
-    protocol: parsed.protocol || DEFAULT_PROTOCOL,
+    protocol: parsed.protocol || 'http:',
     host:     parsed.hostname
   };
-
+  
   _httpsAgent = tunnel.httpsOverHttp({ proxy: _proxy });
 };
 
@@ -34,12 +31,12 @@ var _parseOptions = function(options) {
     host:     parsed.host,
     path:     parsed.path,
     port:     parsed.port     || 80,
-    protocol: parsed.protocol || DEFAULT_PROTOCOL
+    protocol: parsed.protocol || 'http:'
   };
 
-  if(options.protocol === SECURE_PROTOCOL && !parsed.port) {
+  if(options.protocol === 'https:' && !parsed.port) {
     options.port = 443;
-  }
+  } 
 
   return options;
 };
@@ -47,7 +44,7 @@ var _parseOptions = function(options) {
 // Helper function to apply proxy settings to an options object
 var _proxifyOptions = function(options) {
   return {
-    path:     options.protocol + COLON_SLASHES + options.host + options.path,
+    path:     options.protocol + '//' + options.host + options.path,
     host:     _proxy.host,
     port:     _proxy.port,
     protocol: _proxy.protocol
