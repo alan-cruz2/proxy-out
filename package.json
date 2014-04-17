@@ -1,6 +1,6 @@
 {
   "name": "proxy-out",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
   "scripts": {
@@ -8,14 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sony-magic/proxy-out"
+    "url": "https://github.com/ryan-rowland/proxy-out"
   },
-  "author": "Sony Magic",
-  "license": "ISC",
+  "author": "Ryan Rowland",
+  "contributors": [
+    "James J. Womack"
+  ],
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sony-magic/proxy-out/issues"
+    "url": "https://github.com/ryan-rowland/proxy-out/issues"
   },
-  "homepage": "https://github.com/sony-magic/proxy-out",
+  "homepage": "https://github.com/ryan-rowland/proxy-out",
   "dependencies": {
     "tunnel": "0.0.3"
   },
