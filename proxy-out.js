@@ -3,10 +3,12 @@ var url = require('url'),
     https = require('https'),
     tunnel = require('tunnel');
  
-var _httpsAgent, _proxy;
+var _httpsAgent, _proxy, _whitelist;
 
 // Our export method simply sets our proxy information
-module.exports = function(proxyUrl) {
+module.exports = function(proxyUrl, whitelist) {
+  _whitelist = whitelist || [];
+  _whitelist = (typeof _whitelist === 'string') ? [_whitelist] : _whitelist;
 
   // Use http protocol if not specified
   if(!proxyUrl.match('://')) {
@@ -59,9 +61,11 @@ http.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
-  // We don't want to interfere with CONNECT requests
-  if (options && options.method !== 'CONNECT') {
-    options = _proxifyOptions(options);
+  if(_whitelist.indexOf(options.host) < 0) {
+    // We don't want to interfere with CONNECT requests
+    if (options && options.method !== 'CONNECT') {
+      options = _proxifyOptions(options);
+    }
   }
 
   return _httpRequest(options, callback);
@@ -82,7 +86,10 @@ https.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
-  options.agent = _httpsAgent;
+  if(_whitelist.indexOf(options.host) < 0) {
+    options.agent = _httpsAgent;
+  }
+
   return _httpsRequest(options, callback);
 };
 
