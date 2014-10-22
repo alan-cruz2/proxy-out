@@ -15,7 +15,8 @@ Requiring proxy-out will override your http.request, http.get, https.request and
 Sometimes, you'll want to route to internal destinations and won't want them running through a proxy (A proxy won't know how to get back to your localhost, for instance). In this situation, you can add a whitelist by supplying the hostnames as an array like so:
 
 ```
-require('proxy-out')('http://my.proxy.com:80', ['localhost', '127.0.0.1', 'my-site.local']);
+var whitelist = ['localhost', '127.0.0.1', 'my-site.local'];
+require('proxy-out')('http://my.proxy.com:80', whitelist);
 ```
 
 ### Testing
