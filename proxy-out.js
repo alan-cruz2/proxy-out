@@ -1,4 +1,5 @@
-var url = require('url'),
+var _ = require('underscore'),
+    url = require('url'),
     http = require('http'),
     https = require('https'),
     tunnel = require('tunnel');
@@ -61,6 +62,11 @@ http.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
+  // If there is no supplied protocol, assume a URI option is being passed
+  if(!options.protocol) {
+    _.extend(options, options.uri);
+  }
+
   if(_whitelist.indexOf(options.host) < 0) {
     // We don't want to interfere with CONNECT requests
     if (options && options.method !== 'CONNECT') {
@@ -84,6 +90,11 @@ https.request = function(options, callback) {
   // Parse destination URL
   if ('string' === typeof options) {
     options = _parseOptions(options);
+  }
+
+  // If there is no supplied protocol, assume a URI option is being passed
+  if(!options.protocol) {
+    _.extend(options, options.uri);
   }
 
   if(_whitelist.indexOf(options.host) < 0) {

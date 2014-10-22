@@ -10,21 +10,43 @@ if(!proxyUrl || !proxyParts.hostname) {
   throw 'Your http_proxy environment variable is not set!';
 }
 
-var headers;
+var successCodes = [200, 301];
 describe('proxy-out', function() {
   describe('http.get', function() {
-    it('should be able to connect to google via the supplied proxy', function(done) {
+    it('should be able to connect to google via the supplied proxy (string)', function(done) {
       require('./proxy-out')(proxyUrl);
       http.get('http://google.com', function(res) {
-        headers = res.req._headers;
+        expect(successCodes).to.include(res.statusCode);
         done();
       });
     });
 
-    it('should ensure host header use matches that passed to proxy-out on require', function(done) {
-      expect(headers).to.exist;
-      expect(headers.host).to.equal(proxyParts.hostname);
-      done();
+    it('should be able to connect to google via the supplied proxy (uri)', function(done) {
+      require('./proxy-out')(proxyUrl);
+      http.get({ 
+        port: 80,
+        protocol: 'http:',
+        host: 'google.com',
+        path: ''
+      }, function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        done();
+      });
+    });
+
+    it('should be able to connect to google via the supplied proxy (object with uri)', function(done) {
+      require('./proxy-out')(proxyUrl);
+      http.get({ 
+        uri: {
+          port: 80,
+          protocol: 'http:',
+          host: 'google.com',
+          path: ''
+        }
+      }, function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        done();
+      });
     });
   });
 });

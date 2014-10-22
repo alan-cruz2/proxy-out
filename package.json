@@ -4,15 +4,19 @@
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --ui bdd -R spec test.js"
+    "test": "mocha --ui bdd -R spec test.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ryan-rowland/proxy-out"
   },
-  "author": "Ryan Rowland",
+  "author": {
+    "name": "Ryan Rowland"
+  },
   "contributors": [
-    "James J. Womack"
+    {
+      "name": "James J. Womack"
+    }
   ],
   "license": "MIT",
   "bugs": {
@@ -20,10 +24,32 @@
   },
   "homepage": "https://github.com/ryan-rowland/proxy-out",
   "dependencies": {
-    "tunnel": "0.0.3"
+    "tunnel": "0.0.3",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
     "mocha": "~1.17.1"
-  }
+  },
+  "gitHead": "d64c38444d2d7104047d3c79cce91a77e77490bc",
+  "_id": "proxy-out@0.0.9",
+  "_shasum": "599b3646f9e5f4c57952822861327b1ade6632ae",
+  "_from": "proxy-out@0.0.9",
+  "_npmVersion": "1.4.16",
+  "_npmUser": {
+    "name": "ryanrowland",
+    "email": "ryan.w.rowland@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "ryanrowland",
+      "email": "ryan.w.rowland@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "599b3646f9e5f4c57952822861327b1ade6632ae",
+    "tarball": "http://registry.npmjs.org/proxy-out/-/proxy-out-0.0.9.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/proxy-out/-/proxy-out-0.0.9.tgz"
 }
