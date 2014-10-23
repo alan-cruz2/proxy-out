@@ -67,7 +67,7 @@ http.request = function(options, callback) {
     _.extend(options, options.uri);
   }
 
-  if(_whitelist.indexOf(options.host) < 0) {
+  if(_whitelist.indexOf(options.hostname) < 0) {
     // We don't want to interfere with CONNECT requests
     if (options && options.method !== 'CONNECT') {
       options = _proxifyOptions(options);
@@ -97,7 +97,7 @@ https.request = function(options, callback) {
     _.extend(options, options.uri);
   }
 
-  if(_whitelist.indexOf(options.host) < 0) {
+  if(_whitelist.indexOf(options.hostname) < 0) {
     options.agent = _httpsAgent;
   }
 
