@@ -21,6 +21,26 @@ describe('proxy-out', function() {
       });
     });
 
+    it('should be able to connect to google via the supplied proxy (string with port)', function(done) {
+      require('./proxy-out')(proxyUrl);
+      http.get('http://google.com:80', function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        done();
+      });
+    });
+
+    it('should be able to connect to google via the supplied proxy (uri with host)', function(done) {
+      require('./proxy-out')(proxyUrl);
+      http.get({
+        protocol: 'http:',
+        host: 'google.com:80',
+        path: ''
+      }, function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        done();
+      });
+    });
+
     it('should be able to connect to google via the supplied proxy (uri)', function(done) {
       require('./proxy-out')(proxyUrl);
       http.get({ 

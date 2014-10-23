@@ -20,7 +20,8 @@ module.exports = function(proxyUrl, whitelist) {
   _proxy = {
     port:     parsed.port     || 80,
     protocol: parsed.protocol || 'http:',
-    host:     parsed.hostname
+    hostname: parsed.hostname,
+    host:     parsed.host
   };
   
   _httpsAgent = tunnel.httpsOverHttp({ proxy: _proxy });
@@ -32,6 +33,7 @@ var _parseOptions = function(options) {
 
   options = {
     host:     parsed.host,
+    hostname: parsed.hostname,
     path:     parsed.path,
     port:     parsed.port     || 80,
     protocol: parsed.protocol || 'http:'
@@ -48,6 +50,7 @@ var _parseOptions = function(options) {
 var _proxifyOptions = function(options) {
   return {
     path:     options.protocol + '//' + options.host + options.path,
+    hostname: _proxy.hostname,
     host:     _proxy.host,
     port:     _proxy.port,
     protocol: _proxy.protocol
