@@ -69,5 +69,21 @@ describe('proxy-out', function() {
       });
     });
   });
+  describe('http.post', function() {
+    it('should be able to post via the supplied proxy', function(done) {
+      require('./proxy-out')(proxyUrl);
+      var req = http.request({
+        port: 80,
+        method: 'POST',
+        protocol: 'http:',
+        hostname: 'google.com',
+        path: ''
+      }, function(res) {
+        expect(res.req.method).to.eq('POST');
+        done();
+      });
+      req.end();
+    });
+  });
 });
 

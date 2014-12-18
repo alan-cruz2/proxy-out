@@ -50,6 +50,7 @@ var _parseOptions = function(options) {
 var _proxifyOptions = function(options) {
   return {
     path:     options.protocol + '//' + options.host + options.path,
+    method:   options.method || 'GET',
     hostname: _proxy.hostname,
     host:     _proxy.host,
     port:     _proxy.port,
