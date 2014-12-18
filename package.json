@@ -1,6 +1,6 @@
 {
   "name": "proxy-out",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
   "scripts": {
