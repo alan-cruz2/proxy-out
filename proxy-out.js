@@ -65,9 +65,10 @@ http.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
-  // If there is no supplied protocol, assume a URI option is being passed
+  // If there is no supplied protocol, pull from uri or default to 'http:'
   if(!options.protocol) {
     _.extend(options, options.uri);
+    options.protocol = options.protocol || 'http:';
   }
 
   if(_whitelist.indexOf(options.hostname) < 0) {
@@ -95,9 +96,10 @@ https.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
-  // If there is no supplied protocol, assume a URI option is being passed
+  // If there is no supplied protocol, pull from uri or default to 'https:'
   if(!options.protocol) {
     _.extend(options, options.uri);
+    options.protocol = options.protocol || 'https:';
   }
 
   if(_whitelist.indexOf(options.hostname) < 0) {
