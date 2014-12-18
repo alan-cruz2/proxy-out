@@ -1,5 +1,6 @@
 var url = require('url');
 var http = require('http');
+var https = require('https');
 var mocha = require('mocha');
 var expect = require('chai').expect;
 
@@ -37,6 +38,30 @@ describe('proxy-out', function() {
         path: ''
       }, function(res) {
         expect(successCodes).to.include(res.statusCode);
+        done();
+      });
+    });
+
+    it('should infer protocol properly for http', function(done) {
+      require('./proxy-out')(proxyUrl);
+      http.get({
+        host: 'google.com',
+        path: ''
+      }, function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        expect(res.headers.location).to.eq('http://www.google.com/');
+        done();
+      });
+    });
+
+    it('should infer protocol properly for https', function(done) {
+      require('./proxy-out')(proxyUrl);
+      https.get({
+        host: 'google.com',
+        path: ''
+      }, function(res) {
+        expect(successCodes).to.include(res.statusCode);
+        expect(res.headers.location).to.eq('https://www.google.com/');
         done();
       });
     });
