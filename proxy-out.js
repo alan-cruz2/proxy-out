@@ -2,9 +2,10 @@ var _ = require('underscore'),
     url = require('url'),
     http = require('http'),
     https = require('https'),
-    tunnel = require('tunnel');
- 
-var _httpsAgent, _proxy, _whitelist;
+    httpProxy = require('http-proxy-agent'),
+    httpsProxy = require('https-proxy-agent');
+
+var _httpsAgent, _httpAgent, _proxy, _whitelist;
 
 // Our export method simply sets our proxy information
 module.exports = function(proxyUrl, whitelist) {
@@ -16,15 +17,8 @@ module.exports = function(proxyUrl, whitelist) {
     proxyUrl = 'http://' + proxyUrl;
   }
 
-  var parsed = url.parse(proxyUrl);
-  _proxy = {
-    port:     parsed.port     || 80,
-    protocol: parsed.protocol || 'http:',
-    hostname: parsed.hostname,
-    host:     parsed.host
-  };
-  
-  _httpsAgent = tunnel.httpsOverHttp({ proxy: _proxy });
+  _httpAgent = httpProxy(proxyUrl);
+  _httpsAgent = httpsProxy(proxyUrl);
 };
 
 // Helper function to parse a URL string into an options object
@@ -41,21 +35,8 @@ var _parseOptions = function(options) {
 
   if(options.protocol === 'https:' && !parsed.port) {
     options.port = 443;
-  } 
-
+  }
   return options;
-};
-
-// Helper function to apply proxy settings to an options object
-var _proxifyOptions = function(options) {
-  return {
-    path:     options.protocol + '//' + options.host + options.path,
-    method:   options.method || 'GET',
-    hostname: _proxy.hostname,
-    host:     _proxy.host,
-    port:     _proxy.port,
-    protocol: _proxy.protocol
-  };
 };
 
 // Override HTTP request method
@@ -66,20 +47,21 @@ http.request = function(options, callback) {
     options = _parseOptions(options);
   }
 
-  // If there is no supplied protocol, pull from uri or default to 'http:'
+  // If there is no supplied protocol, pull from uri or default to 'https:'
   if(!options.protocol) {
     _.extend(options, options.uri);
     options.protocol = options.protocol || 'http:';
   }
 
-  if(_whitelist.indexOf(options.hostname) < 0) {
-    // We don't want to interfere with CONNECT requests
-    if (options && options.method !== 'CONNECT') {
-      options = _proxifyOptions(options);
-    }
-  }
+  // If no hostname is provided get it from host
+  !options.hostname && (options.hostname = options.host.substring(0, options.host.indexOf(':')));
 
-  return _httpRequest(options, callback);
+  if(options.agent){
+    return _httpRequest(options, callback);
+  } else if(_whitelist.indexOf(options.hostname) < 0){
+    options.agent = _httpAgent;
+    return _httpRequest(options, callback);
+  }
 };
 
 // Override HTTPS get method
@@ -88,6 +70,7 @@ http.get = function(options, callback) {
   req.end();
   return req;
 };
+
 
 // Override HTTPS request method
 var _httpsRequest = https.request;
@@ -116,4 +99,3 @@ https.get = function(options, callback) {
   req.end();
   return req;
 };
-

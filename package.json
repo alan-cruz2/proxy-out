@@ -15,7 +15,8 @@
   },
   "contributors": [
     {
-      "name": "James J. Womack"
+      "name": "James J. Womack",
+      "name": "Alan Cruz"
     }
   ],
   "license": "MIT",
@@ -24,7 +25,8 @@
   },
   "homepage": "https://github.com/ryan-rowland/proxy-out",
   "dependencies": {
-    "tunnel": "0.0.3",
+    "http-proxy-agent": "^1.0.0",
+    "https-proxy-agent": "^1.0.0",
     "underscore": "^1.7.0"
   },
   "devDependencies": {

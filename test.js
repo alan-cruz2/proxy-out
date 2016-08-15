@@ -35,7 +35,7 @@ describe('proxy-out', function() {
       http.get({
         protocol: 'http:',
         host: 'google.com:80',
-        path: ''
+        path: '/'
       }, function(res) {
         expect(successCodes).to.include(res.statusCode);
         done();
@@ -111,4 +111,5 @@ describe('proxy-out', function() {
     });
   });
 });
+
 
