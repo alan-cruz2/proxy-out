@@ -1,8 +1,9 @@
 {
   "name": "proxy-out",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Override HTTP and HTTPS to set global proxy out settings",
   "main": "proxy-out.js",
+  "engines": { "node" : ">=4.0.0"},
   "scripts": {
     "test": "mocha --ui bdd -R spec test.js"
   },
@@ -37,7 +38,7 @@
   "_id": "proxy-out@0.0.9",
   "_shasum": "599b3646f9e5f4c57952822861327b1ade6632ae",
   "_from": "proxy-out@0.0.9",
-  "_npmVersion": "1.4.16",
+  "_npmVersion": "2.15.8",
   "_npmUser": {
     "name": "ryanrowland",
     "email": "ryan.w.rowland@gmail.com"
